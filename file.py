@@ -1,8 +1,10 @@
 from asyncio import streams
+from fileinput import filename
 # from mysqlx import Column
 # from curses import window
 from pytube import YouTube
 import tkinter as tk
+import sys
 import tkinter.font as tkFont
 SAVE_PATH="D:/donwloaded_videos"
 
@@ -65,24 +67,33 @@ class interface:
         self.button2=tk.Button(text="Click me!",width=10,height=5,command=self.assign_variable2).grid(row=1,column=2,pady=10)
         self.button3=tk.Button(text="Click me!",width=10,height=5,command=self.assign_variable3).grid(row=2,column=2,pady=10)
         self.button4=tk.Button(text="Click me!",width=10,height=5,command=self.assign_variable4).grid(row=3,column=2,pady=10)
-        self.button5=tk.Button(text="Download",width=50,height=7).grid(row=4,column=1,pady=10)
+        self.button5=tk.Button(text="Download",width=50,height=7,command=self.download_video).grid(row=4,column=1,pady=10)
         # self.get_textvar1=lambda:self.stringvar1.get()
-        # self.get_textvar2=lambda:self.stringvar2.get()
+        # self.get_textvar2=lambda:self.stringvar2.get()s
         # self.get_textvar3=lambda:self.stringvar3.get()
         # self.get_textvar4=lambda:self.stringvar4.get()
         self.resolution=None
         self.File_path=None
         self.File_Name=None
         self.URL=None
+        # self.yt=None
     def assign_variable1(self):
         self.resolution=self.stringvar1.get()
     def assign_variable2(self):
-        self.resolution=self.stringvar2.get()
+        self.File_path=self.stringvar2.get()
     def assign_variable3(self):
         self.File_Name=self.stringvar3.get()
     def assign_variable4(self):
-        self.File_Name=self.stringvar4.get()
-    # def download_video():
+        self.URL=self.stringvar4.get()
+    def download_video(self):
+        self.yt=YouTube(self.URL)
+        self.x=self.yt.streams
+        self.y=self.x.filter(res=self.resolution,progressive=True,file_extension="mp4")
+        if(len(self.y)>0):
+            self.y=self.x.filter(res=self.resolution,progressive=True,file_extension="mp4").first().download(self.File_path,filename=self.File_Name)
+        else:
+            sys.exit()
+
     #    for i in x:
     #         for j in str(i.split()):
     #             print(j)
