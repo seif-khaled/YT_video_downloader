@@ -99,12 +99,15 @@ class interface:
         except:
             sys.exit()
     def download_video(self):
-        self.yt=YouTube(self.URL)
-        self.x=self.yt.streams
-        self.y=self.x.filter(res=self.resolution,progressive=True,file_extension="mp4")
-        if(len(self.y)>0):
-            self.y=self.x.filter(res=self.resolution,progressive=True,file_extension="mp4").first().download(self.File_path,filename=self.File_Name)
-        else:
+        try:
+            self.yt=YouTube(self.URL)
+            self.x=self.yt.streams
+            self.y=self.x.filter(res=self.resolution,progressive=True,file_extension="mp4")
+            if(len(self.y)>0):
+                self.y=self.x.filter(res=self.resolution,progressive=True,file_extension="mp4").first().download(self.File_path,filename=self.File_Name)
+            else:
+                sys.exit()
+        except:
             sys.exit()
 
     #    for i in x:
