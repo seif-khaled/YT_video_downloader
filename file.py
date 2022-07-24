@@ -5,34 +5,36 @@ from fileinput import filename
 from pytube import YouTube
 import tkinter as tk
 import sys
+import os.path
+from os import path
 import tkinter.font as tkFont
-SAVE_PATH="D:/donwloaded_videos"
+# SAVE_PATH="D:/donwloaded_videos"
 
 
-youtube_url="https://www.youtube.com/watch?v=yoj2I6ZJLx8"
+# youtube_url="https://www.youtube.com/watch?v=yoj2I6ZJLx8"
 
-yt=YouTube(youtube_url)
+# yt=YouTube(youtube_url)
 
-class download_vidoes:
-    def __init__(self,youtubelink,savepath,resolution):
-        self.youtube_url= youtubelink
-        self.savepath=savepath
-        self.reso=resolution
-        self.yt=YouTube(youtube_url)
-    # def get_reso(self):
+# class download_vidoes:
+#     def __init__(self,youtubelink,savepath,resolution):
+#         self.youtube_url= youtubelink
+#         self.savepath=savepath
+#         self.reso=resolution
+#         self.yt=YouTube(youtube_url)
+#     # def get_reso(self):
 
-    def get_title(self):
-        return self.yt.title
-    def donwload_video(self):
-       x= self.yt.streams
-    #    print(x)
+#     def get_title(self):
+#         return self.yt.title
+#     def donwload_video(self):
+#        x= self.yt.streams
+#     #    print(x)
        
-       y=x.filter(res=self.reso,progressive=True,file_extension="mp4")
-    #    .download(self.savepath,filename=input("Enter file name (without extension): "))
-       if(len(y)>0):
-            y=x.filter(res=self.reso,progressive=True,file_extension="mp4").first().download(self.savepath)
-       else:
-            return "couldnt find supported extension/file",x.filter(res=self.reso,progressive=True,file_extension="mp4")
+#        y=x.filter(res=self.reso,progressive=True,file_extension="mp4")
+#     #    .download(self.savepath,filename=input("Enter file name (without extension): "))
+#        if(len(y)>0):
+#             y=x.filter(res=self.reso,progressive=True,file_extension="mp4").first().download(self.savepath)
+#        else:
+#             return "couldnt find supported extension/file",x.filter(res=self.reso,progressive=True,file_extension="mp4")
 
 
 
@@ -79,12 +81,23 @@ class interface:
         # self.yt=None
     def assign_variable1(self):
         self.resolution=self.stringvar1.get()
+        if(self.resolution not in ["144p","240p","360p","480p","720p"]):
+            sys.exit()
+
     def assign_variable2(self):
-        self.File_path=self.stringvar2.get()
+        try:
+            path.isdir(self.stringvar2.get())
+            self.File_path=self.stringvar2.get()
+        except:
+            sys.exit()
+    
     def assign_variable3(self):
         self.File_Name=self.stringvar3.get()
     def assign_variable4(self):
-        self.URL=self.stringvar4.get()
+        try:
+            self.URL=self.stringvar4.get()
+        except:
+            sys.exit()
     def download_video(self):
         self.yt=YouTube(self.URL)
         self.x=self.yt.streams
@@ -99,9 +112,11 @@ class interface:
     #             print(j)
     
 # print(help(filter))
-c=download_vidoes(youtube_url,SAVE_PATH,"720p")
+
 # print(c.donwload_video())
 # print(tk.TkVersion)
-width=1280
-height=720
+width=1920
+height=1080
 i=interface(width,height)
+# x=["" for i in range(5)]
+# print(x)
